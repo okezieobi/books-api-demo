@@ -5,7 +5,7 @@ let server;
 switch (process.env.NODE_ENV) {
   case 'production':
     server = {
-      url: 'https://ed-tech-demo.herokuapp.com/api/v1',
+      url: '.herokuapp.com/api/v1',
       description: 'Deployed production ready app app on Heroku',
     };
     break;
