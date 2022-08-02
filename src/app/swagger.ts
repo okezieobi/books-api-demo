@@ -21,7 +21,7 @@ const swaggerDefinition = {
   info: {
     title: 'Simple book repo REST API', // Title of the documentation
     version: '1.0.0', // Version of the app
-    description: 'REST API for SimplyInsured app', // short description of the app
+    description: 'REST API for a books api demo app', // short description of the app
   },
   servers: [server],
   components: {
