@@ -4,7 +4,12 @@
   "description": "A simple book api demo",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "NODE_ENV=development DEBUG=books-api-demo:* nodemon src/server.ts",
+    "release": "npm run clean && npm run build-app && npm run start",
+    "clean": "rm -rf dist",
+    "build": "npm run clean && npm run build:app",
+    "build:app": "npx tsc",
+    "start": "node dist/server.js",
     "prepare": "husky install"
   },
   "repository": {
