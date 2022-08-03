@@ -1,7 +1,7 @@
 import pgPromise, { QueryFile } from 'pg-promise';
 import { join as joinPath } from 'path';
 import { config } from 'dotenv';
-import Ajv, { Schema, DefinedError } from 'ajv';
+import Ajv, { Schema } from 'ajv';
 import ajvKeywords from 'ajv-keywords';
 import ajvFormats from 'ajv-formats';
 import ajvErrors from 'ajv-errors';
@@ -20,7 +20,7 @@ export async function validate(arg: unknown, schema: Schema, context?: string) {
       throw {
         message: `${context} validation failed`,
         name: 'InvalidArg',
-        failures: isValid.errors as DefinedError[],
+        failures: isValid,
       };
   }
 

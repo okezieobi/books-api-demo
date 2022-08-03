@@ -19,7 +19,7 @@ interface Book {
     readonly reLeased: string;
     readonly characters: string[];
     readonly povCharacters: string[];
-    comments?: Comment[];
+    comments?: number;
 }
 
 export class BookServices {
@@ -33,7 +33,7 @@ export class BookServices {
             books.sort((bookA: Book, bookB: Book) => bookA.reLeased.localeCompare(bookB.reLeased))
             books.forEach(async (book) => {
                 const bookId = `${book.url[book.url.length - 1]}`;
-                book.comments = await this.model.comment.listByBook(bookId);
+                book.comments = await (await this.model.comment.listByBook(bookId))?.length;
             });
         }
         return books;

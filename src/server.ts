@@ -46,12 +46,9 @@
   * Event listener for HTTP server "error" event.
   */
  
- interface CustomErr extends Error {
-   syscall: string;
-   code: string;
- }
  
- function onError(error: CustomErr) {
+ function onError(error: Error & { syscall: string;
+  code: string; }) {
    if (error.syscall !== 'listen') {
      throw error;
    }

@@ -7,7 +7,6 @@ export const router = Router();
 export const bookRouter = Router();
 
 const bookScope = 'books';
-
 bookRouter.route('/').get(async (req: Request, res: Response, next: NextFunction) => {
     const { list } = new BookServices({ comment: new CommentModel() });
     res.locals[bookScope] = await list().catch(next);
