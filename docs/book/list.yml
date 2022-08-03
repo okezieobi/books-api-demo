@@ -1,0 +1,20 @@
+paths:
+  /books: # path of the user from your endpoint
+    get: # endpoint request type (post request)
+      tags: # Tag property
+        - Book # Value of the tag
+      summary: 'fetch books to list'
+      parameters:
+        - name : page
+          in: query
+          description: 'Page number of books to list'
+          schema:
+            type: number
+        - name : size
+          in: query
+          description: 'Page size of books to list'
+          schema:
+            type: number
+      responses: # server responses
+        200:
+          description: 'An object containing profile details'

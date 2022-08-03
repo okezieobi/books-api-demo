@@ -1,1 +1,1 @@
-export const api = 'https://www.anapioficeandfire.com/api/books/';
+export const api = 'https://www.anapioficeandfire.com/api/';

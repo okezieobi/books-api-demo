@@ -15,26 +15,26 @@ ajvKeywords(ajv);
 ajvErrors(ajv);
 
 export async function validate(arg: unknown, schema: Schema, context?: string) {
-    const isValid = ajv.compile(schema);
-    if (!isValid(arg))
-      throw {
-        message: `${context} validation failed`,
-        name: 'InvalidArg',
-        failures: isValid,
-      };
-  }
+  const isValid = ajv.compile(schema);
+  if (!isValid(arg))
+    throw {
+      message: `${context} validation failed`,
+      name: 'InvalidArg',
+      failures: isValid,
+    };
+}
 
 export function queryErrHandler(
-    err: Error & { detail: string; table: string; constraint: string; routine: string },
-  ) {
-    const { name, message, detail, table, constraint, routine } = err;
-    throw { name: 'Query', alias: name, message, detail, table, constraint, routine };
-  }
+  err: Error & { detail: string; table: string; constraint: string; routine: string },
+) {
+  const { name, message, detail, table, constraint, routine } = err;
+  throw { name: 'Query', alias: name, message, detail, table, constraint, routine };
+}
 
 export function sql(file: string) {
-    const fullPath = joinPath(__dirname, `../../sql/${file}.sql`); // generating full path;
-    return new QueryFile(fullPath, { minify: true });
-  }
+  const fullPath = joinPath(__dirname, `../../sql/${file}.sql`); // generating full path;
+  return new QueryFile(fullPath, { minify: true });
+}
 
-  const commentTable = sql('comment/table');
-  db.none(commentTable).catch(console.error);
+const commentTable = sql('comments/table');
+db.none(commentTable).catch(console.error);
