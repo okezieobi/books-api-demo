@@ -40,7 +40,7 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-                       const server = createServer(app);
+                         const server = createServer(app);
 
 /**
  * Event listener for HTTP server "error" event.
