@@ -25,9 +25,10 @@ interface Book {
 export class BookServices {
   constructor(readonly model: Model) {
     this.list = this.list.bind(this);
+    this.get = this.get.bind(this);
   }
 
-  async list({ page = 1, size = 3 }): Promise<Book[]> {
+  async list(page?: string, size?: string) {
     const books = await (await axios.get<Book[]>(`${api}books?page=${page}&pageSize=${size}`)).data;
     if (books.length > 0) {
       books.sort((bookA: Book, bookB: Book) => bookA.released.localeCompare(bookB.released));
@@ -37,5 +38,10 @@ export class BookServices {
       });
     }
     return books;
+  }
+
+  async get(id: string) {
+    const book = await (await axios.get<Book>(`${api}books/${id}`)).data;
+    return book;
   }
 }

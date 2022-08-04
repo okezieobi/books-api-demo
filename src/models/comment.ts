@@ -11,6 +11,7 @@ export interface Comment {
 const { sql } = new Database();
 const queries = {
   listByBook: sql('comments/listByBook'),
+  insert: sql('comments/insert'),
 };
 
 export class CommentModel {
@@ -18,5 +19,11 @@ export class CommentModel {
 
   async listByBook(bookId: string): Promise<Comment[] | undefined> {
     return this.db.client.manyOrNone(queries.listByBook, { bookId });
+  }
+
+  async insert(comment: string, bookId: string, ipAddress: string): Promise<Comment | undefined> {
+    return this.db.client
+      .oneOrNone(queries.insert, { comment, bookId, ipAddress })
+      .catch(this.db.queryErrHandler);
   }
 }

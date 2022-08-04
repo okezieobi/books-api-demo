@@ -11,8 +11,13 @@ paths:
           schema:
             type: number
         - name : size
-          in: query
+          in: querys
           description: 'Page size of books to list'
+          schema:
+            type: number
+        - name : gender
+          in: query
+          description: 'gender attribute to filter list of books'
           schema:
             type: number
       responses: # server responses

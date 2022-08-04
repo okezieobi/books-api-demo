@@ -1,18 +1,9 @@
 import { Router, Request, Response, NextFunction } from 'express';
 
-import { BookServices } from '../services';
+import { BookServices, CommentServices, CharacterServices } from '../services';
 import { CommentModel } from '../models';
 
 export const router = Router();
-export const bookRouter = Router();
-
-const bookScope = 'books';
-bookRouter.route('/').get(async ({ query }: Request, res: Response, next: NextFunction) => {
-  const { list } = new BookServices({ comment: new CommentModel() });
-  res.locals[bookScope] = await list(query).catch(next);
-  next();
-});
-
 function dispatchResponse(scope: string) {
   return (req: Request, res: Response): void => {
     res.status(res.statusCode ?? 200).send({
@@ -21,4 +12,45 @@ function dispatchResponse(scope: string) {
   };
 }
 
+export const bookRouter = Router();
+const bookScope = 'books';
+bookRouter.get(
+  '/',
+  async ({ query: { page, size } }: Request, res: Response, next: NextFunction) => {
+    const { list } = new BookServices({ comment: new CommentModel() });
+    res.locals[bookScope] = await list(`${page}`, `${size}`).catch(next);
+    next();
+  },
+);
+
+bookRouter.get('/:id', async ({ params: { id } }: Request, res: Response, next: NextFunction) => {
+  const { get } = new BookServices({ comment: new CommentModel() });
+  res.locals[bookScope] = await get(id).catch(next);
+  next();
+});
+
+const commentRouter = Router();
+const commentScope = 'comment';
+commentRouter
+  .route('/')
+  .post(async ({ body: { bookId, body }, ip }: Request, res: Response, next: NextFunction) => {
+    const { create } = new CommentServices(new CommentModel());
+    res.locals[commentScope] = await create(body, bookId, ip).catch(next);
+    res.status(201);
+    next();
+  });
+
+const characterRouter = Router();
+const characterScope = 'character';
+characterRouter.get(
+  `${characterScope}`,
+  async ({ query: { page, size, gender } }: Request, res: Response, next: NextFunction) => {
+    const { list } = new CharacterServices();
+    res.locals[bookScope] = await list(`${page}`, `${gender}`, `${size}`).catch(next);
+    next();
+  },
+);
+
 router.use(`/${bookScope}`, bookRouter, dispatchResponse(bookScope));
+router.use(`/${commentScope}`, commentRouter, dispatchResponse(commentScope));
+router.use(`/${characterScope}`, characterRouter, dispatchResponse(characterScope));
