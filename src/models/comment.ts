@@ -1,19 +1,22 @@
-import { db, sql } from './db';
+import { Database } from './db';
 
 export interface Comment {
-    id?:  string;
-    bookId: string;
-    body: string;
-    ipAddress: string;
-    createdAt: string;
-  }
+  id?: string;
+  bookId: string;
+  body: string;
+  ipAddress: string;
+  createdAt: string;
+}
 
+const { sql } = new Database();
 const queries = {
-    listByBook: sql('comments/listByBook'),
+  listByBook: sql('comments/listByBook'),
 };
 
 export class CommentModel {
-    async listByBook(bookId: string): Promise<Comment[] | undefined> {
-        return db.manyOrNone(queries.listByBook, { bookId });
-    }
-} 
+  private db = new Database();
+
+  async listByBook(bookId: string): Promise<Comment[] | undefined> {
+    return this.db.client.manyOrNone(queries.listByBook, { bookId });
+  }
+}
