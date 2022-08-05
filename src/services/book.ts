@@ -28,13 +28,13 @@ export class BookServices {
     this.get = this.get.bind(this);
   }
 
-  async list(page?: string, size?: string) {
+  async list(page?: number, size?: number) {
     const books = await (await axios.get<Book[]>(`${api}books?page=${page}&pageSize=${size}`)).data;
     if (books.length > 0) {
       books.sort((bookA: Book, bookB: Book) => bookA.released.localeCompare(bookB.released));
       books.forEach(async (book) => {
-        const bookId = `${book.url[book.url.length - 1]}`;
-        book.commentCount = await (await this.model.comment.listByBook(bookId))?.length;
+        const bookId = book.url.match(/[0-9]{10}/g);
+        book.commentCount = await (await this.model.comment.listByBook(`${bookId}`))?.length;
       });
     }
     return books;

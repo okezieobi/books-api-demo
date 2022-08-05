@@ -18,7 +18,7 @@ bookRouter.get(
   '/',
   async ({ query: { page, size } }: Request, res: Response, next: NextFunction) => {
     const { list } = new BookServices({ comment: new CommentModel() });
-    res.locals[bookScope] = await list(`${page}`, `${size}`).catch(next);
+    res.locals[bookScope] = await list(+!page, +!size).catch(next);
     next();
   },
 );
@@ -38,15 +38,29 @@ commentRouter
     res.locals[commentScope] = await create(body, bookId, ip).catch(next);
     res.status(201);
     next();
+  })
+  .get(async ({ query: { page, size } }: Request, res: Response, next: NextFunction) => {
+    const { list } = new CommentModel();
+    res.locals[commentScope] = await list(+!page, +!size).catch(next);
+    next();
   });
 
 const characterRouter = Router();
 const characterScope = 'character';
 characterRouter.get(
-  `${characterScope}`,
+  '/',
   async ({ query: { page, size, gender } }: Request, res: Response, next: NextFunction) => {
     const { list } = new CharacterServices();
-    res.locals[bookScope] = await list(`${page}`, `${gender}`, `${size}`).catch(next);
+    res.locals[bookScope] = await list(+!page, +!size, `${gender}`).catch(next);
+    next();
+  },
+);
+
+characterRouter.get(
+  '/:id',
+  async ({ params: { id } }: Request, res: Response, next: NextFunction) => {
+    const { get } = new CharacterServices();
+    res.locals[bookScope] = await get(`${id}`).catch(next);
     next();
   },
 );

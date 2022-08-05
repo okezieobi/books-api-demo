@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Comment } from '../models';
 
 import { api } from '../utils';
 
@@ -22,12 +23,17 @@ interface Character {
 }
 
 export class CharacterServices {
-  async list(page?: string, size?: string, gender?: string) {
+  async list(page?: number, size?: number, gender?: string) {
     const characters = await (
       await axios.get<Character[]>(
         `${api}characters?page=${page}&pageSize=${size}&gender=${gender}`,
       )
     ).data;
     return characters;
+  }
+
+  async get(id: string) {
+    const character = await (await axios.get<Comment>(`${api}characters/${id}`)).data;
+    return character;
   }
 }

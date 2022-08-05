@@ -12,18 +12,23 @@ const { sql } = new Database();
 const queries = {
   listByBook: sql('comments/listByBook'),
   insert: sql('comments/insert'),
+  selectMany: sql('comment/selectMany'),
 };
 
 export class CommentModel {
   private db = new Database();
 
-  async listByBook(bookId: string): Promise<Comment[] | undefined> {
-    return this.db.client.manyOrNone(queries.listByBook, { bookId });
+  async listByBook(bookId: string) {
+    return this.db.client.manyOrNone<Comment | undefined>(queries.listByBook, { bookId });
   }
 
-  async insert(comment: string, bookId: string, ipAddress: string): Promise<Comment | undefined> {
+  async insert(comment: string, bookId: string, ipAddress: string) {
     return this.db.client
-      .oneOrNone(queries.insert, { comment, bookId, ipAddress })
+      .oneOrNone<Comment>(queries.insert, { comment, bookId, ipAddress })
       .catch(this.db.queryErrHandler);
+  }
+
+  async list(page = 0, size = 1) {
+    return this.db.client.manyOrNone<Comment | undefined>(queries.selectMany, { page, size });
   }
 }
