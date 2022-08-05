@@ -3,5 +3,5 @@ SELECT "bookId",
     "ipAddress",
     "createAt"
 FROM comments
-ORDER BY "createAt" DESC OFFSET $(page)
-LIMIT $(size);
+ORDER BY "createAt" DESC
+LIMIT $(size) OFFSET $(page);

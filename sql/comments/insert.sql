@@ -1,4 +1,3 @@
 INSERT INTO comments
-    ("ipAddress", "bookId", comment)
-VALUES($
-{ipAddress}, ${bookId}, ${comment}) RETURNING *;
+    ("ipAddress", "bookId", body)
+VALUES($(ipAddress), $(bookId), $(body)) RETURNING *;

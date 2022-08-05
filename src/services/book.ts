@@ -25,8 +25,8 @@ export class BookServices {
   }
 
   async list({ page = 1, size = 3 }) {
-    await this.model.comment.db.validateInt(+!page, 'Page in query of books');
-    await this.model.comment.db.validateInt(+!size, 'Page size in query of books');
+    await this.model.comment.db.validateInt(+page, 'Page in query of books');
+    await this.model.comment.db.validateInt(+size, 'Page size in query of books');
     const books = await (await axios.get<Book[]>(`${api}books?page=${page}&pageSize=${size}`)).data;
     if (books.length > 0) {
       books.sort((bookA: Book, bookB: Book) => bookA.released.localeCompare(bookB.released));
@@ -39,7 +39,7 @@ export class BookServices {
   }
 
   async get(id: string) {
-    await this.model.comment.db.validateInt(+!id, 'Id of book');
+    await this.model.comment.db.validateInt(+id, 'Id of book');
     const book = await (await axios.get<Book>(`${api}books/${id}`)).data;
     return book;
   }

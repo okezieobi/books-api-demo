@@ -36,9 +36,9 @@ commentRouter
     res.status(201);
     next();
   })
-  .get(async ({ query: { page, size } }: Request, res: Response, next: NextFunction) => {
+  .get(async ({ query }: Request, res: Response, next: NextFunction) => {
     const { list } = new CommentModel();
-    res.locals[commentScope] = await list(+!page, +!size).catch(next);
+    res.locals[commentScope] = await list(query).catch(next);
     next();
   });
 
