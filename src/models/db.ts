@@ -10,7 +10,10 @@ config();
 const databaseUrl = new Map();
 databaseUrl.set('development', process.env.DEV_DATABASE_URL);
 databaseUrl.set('production', `${process.env.DATABASE_URL}?`);
-const client = pgPromise()(databaseUrl.get(process.env.NODE_ENV));
+const client = pgPromise()({
+  ssl: { rejectUnauthorized: true },
+  connectionString: databaseUrl.get(process.env.NODE_ENV),
+});
 
 const ajv = new Ajv({ allErrors: true });
 ajvFormats(ajv);
