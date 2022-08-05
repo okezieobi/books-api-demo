@@ -5,11 +5,12 @@ paths:
         - Book # Value of the tag
       summary: 'get book by its id'
       parameters:
-        - name : page
-          in: params
+        - name : id
+          in: path
           description: 'id of book to get'
           schema:
-            type: number
+            type: integer
+            minimum: 1
       responses: # server responses
         200:
           description: 'A book object'

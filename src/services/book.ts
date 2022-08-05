@@ -28,12 +28,13 @@ export class BookServices {
     this.get = this.get.bind(this);
   }
 
-  async list(page?: number, size?: number) {
+  async list({ page = 1, size = 3 }) {
     const books = await (await axios.get<Book[]>(`${api}books?page=${page}&pageSize=${size}`)).data;
     if (books.length > 0) {
       books.sort((bookA: Book, bookB: Book) => bookA.released.localeCompare(bookB.released));
       books.forEach(async (book) => {
-        const bookId = book.url.match(/[0-9]{10}/g);
+        const bookId = book.url.match(/\d+/g)?.join();
+        console.log(bookId);
         book.commentCount = await (await this.model.comment.listByBook(`${bookId}`))?.length;
       });
     }
@@ -41,6 +42,7 @@ export class BookServices {
   }
 
   async get(id: string) {
+    await this.model.comment.db.validateInt(+!id, 'Id of book');
     const book = await (await axios.get<Book>(`${api}books/${id}`)).data;
     return book;
   }

@@ -30,6 +30,11 @@ export class Database {
       };
   }
 
+  async validateInt(id: number, context: string) {
+    const schema = { type: 'integer' };
+    return this.validate(id, schema, context);
+  }
+
   queryErrHandler(
     err: Error & { detail: string; table: string; constraint: string; routine: string },
   ) {

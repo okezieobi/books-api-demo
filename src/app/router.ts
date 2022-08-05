@@ -14,14 +14,11 @@ function dispatchResponse(scope: string) {
 
 export const bookRouter = Router();
 const bookScope = 'books';
-bookRouter.get(
-  '/',
-  async ({ query: { page, size } }: Request, res: Response, next: NextFunction) => {
-    const { list } = new BookServices({ comment: new CommentModel() });
-    res.locals[bookScope] = await list(+!page, +!size).catch(next);
-    next();
-  },
-);
+bookRouter.get('/', async ({ query }: Request, res: Response, next: NextFunction) => {
+  const { list } = new BookServices({ comment: new CommentModel() });
+  res.locals[bookScope] = await list(query).catch(next);
+  next();
+});
 
 bookRouter.get('/:id', async ({ params: { id } }: Request, res: Response, next: NextFunction) => {
   const { get } = new BookServices({ comment: new CommentModel() });

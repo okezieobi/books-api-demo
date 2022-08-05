@@ -16,7 +16,7 @@ const queries = {
 };
 
 export class CommentModel {
-  private db = new Database();
+  readonly db = new Database();
 
   async listByBook(bookId: string) {
     return this.db.client.manyOrNone<Comment | undefined>(queries.listByBook, { bookId });

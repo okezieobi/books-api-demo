@@ -20,6 +20,7 @@ const errHandler = (err: Error, req: Request, res: Response, next: NextFunction)
   codes.set('InvalidArg', 400);
   codes.set('NotFound', 404);
   codes.set('Query', 409);
+  codes.set('AxiosError', 409);
   res.status(codes.get(err.name));
   if (res.statusCode > 399 || res.statusCode < 500) {
     res.send({ error: err });
