@@ -1,20 +1,16 @@
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUI from 'swagger-ui-express';
 
-let server;
-switch (process.env.NODE_ENV) {
-  case 'production':
-    server = {
-      url: '.herokuapp.com/api/v1',
-      description: 'Deployed production ready app app on Heroku',
-    };
-    break;
-  default:
-    server = {
-      url: 'http://localhost:5000/api/v1',
-      description: 'Local development/testing app',
-    };
-}
+const server = new Map();
+server.set('production', {
+  url: '.herokuapp.com/api/v1',
+  description: 'Deployed production ready app app on Heroku',
+});
+
+server.set('development', {
+  url: 'http://localhost:5000/api/v1',
+  description: 'Local development/testing app',
+});
 
 const swaggerDefinition = {
   openapi: '3.0.3',
@@ -23,9 +19,8 @@ const swaggerDefinition = {
     version: '1.0.0', // Version of the app
     description: 'REST API for a books api demo app', // short description of the app
   },
-  servers: [server],
-  components: {
-     },
+  servers: [server.get(process.env.NODE_ENV)],
+  components: {},
 };
 
 // options for the swagger docs
