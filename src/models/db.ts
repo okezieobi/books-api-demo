@@ -48,8 +48,12 @@ export class Database {
   }
 }
 
-if (process.env.NODE_ENV === 'development') {
-  const { sql } = new Database();
-  const commentTable = sql('comments/table');
-  client.none(commentTable).catch(console.error);
-}
+// if (process.env.NODE_ENV === 'development') {
+//   const { sql } = new Database();
+//   const commentTable = sql('comments/table');
+//   client.none(commentTable).catch(console.error);
+// }
+
+const { sql } = new Database();
+const commentTable = sql('comments/table');
+client.none(commentTable).catch(console.error);
