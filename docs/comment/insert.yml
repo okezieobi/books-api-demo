@@ -1,0 +1,32 @@
+paths:
+  /comments: # path of the user from your endpoint
+    post: # endpoint request type (post request)
+      tags: # Tag property
+        - Comment # Value of the tag
+      summary: creates a profile as an authorized user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/create_comment'
+      responses: # server responses
+        201:
+          description: An object containing a newly created profile details
+        404:
+          description: Error message object in error property of response body
+        400:
+          description: Error message object in error property of response body
+components: # Schema definition for request body
+  schemas:
+    create_comment:
+      type: object
+      properties:
+        body:
+          type: string
+          example: 'example comment'
+        bookId:
+          type: number
+          example: 1
+      required:
+        - body
+        - bookId

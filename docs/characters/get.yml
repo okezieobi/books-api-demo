@@ -1,15 +1,15 @@
 paths:
-  /books/{id}: # path of the user from your endpoint
+  /characters/{id}: # path of the user from your endpoint
     get: # endpoint request type (post request)
       tags: # Tag property
-        - Book # Value of the tag
+        - Character # Value of the tag
       summary: 'get book by its id'
       parameters:
         - name : page
           in: params
-          description: 'id of book to get'
+          description: 'id of character to get'
           schema:
             type: number
       responses: # server responses
         200:
-          description: 'A book object'
+          description: 'A character object'

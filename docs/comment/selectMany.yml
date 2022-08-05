@@ -1,18 +1,18 @@
 paths:
-  /books: # path of the user from your endpoint
+  /comments: # path of the user from your endpoint
     get: # endpoint request type (post request)
       tags: # Tag property
-        - Book # Value of the tag
-      summary: 'fetch books to list'
+        - Comment # Value of the tag
+      summary: 'fetch comments to list'
       parameters:
         - name : page
           in: query
-          description: 'Page number of books to list'
+          description: 'Page number of comments to list'
           schema:
             type: number
         - name : size
           in: query
-          description: 'Page size of books to list'
+          description: 'Page size of comments to list'
           schema:
             type: number
       responses: # server responses

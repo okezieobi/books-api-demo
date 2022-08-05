@@ -30,7 +30,7 @@ bookRouter.get('/:id', async ({ params: { id } }: Request, res: Response, next: 
 });
 
 const commentRouter = Router();
-const commentScope = 'comment';
+const commentScope = 'comments';
 commentRouter
   .route('/')
   .post(async ({ body: { bookId, body }, ip }: Request, res: Response, next: NextFunction) => {
@@ -46,7 +46,7 @@ commentRouter
   });
 
 const characterRouter = Router();
-const characterScope = 'character';
+const characterScope = 'characters';
 characterRouter.get(
   '/',
   async ({ query: { page, size, gender } }: Request, res: Response, next: NextFunction) => {
