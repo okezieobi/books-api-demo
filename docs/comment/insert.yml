@@ -25,7 +25,7 @@ components: # Schema definition for request body
           type: string
           example: 'example comment'
         bookId:
-          type: number
+          type: integer
           example: 1
       required:
         - body

@@ -3,10 +3,6 @@ import axios from 'axios';
 import { api } from '../utils';
 import { CommentModel } from '../models';
 
-export interface Model {
-  comment: CommentModel;
-}
-
 interface Book {
   readonly url: string;
   readonly name: string;
@@ -23,18 +19,19 @@ interface Book {
 }
 
 export class BookServices {
-  constructor(readonly model: Model) {
+  constructor(private model: { comment: CommentModel }) {
     this.list = this.list.bind(this);
     this.get = this.get.bind(this);
   }
 
   async list({ page = 1, size = 3 }) {
+    await this.model.comment.db.validateInt(+!page, 'Page in query of books');
+    await this.model.comment.db.validateInt(+!size, 'Page size in query of books');
     const books = await (await axios.get<Book[]>(`${api}books?page=${page}&pageSize=${size}`)).data;
     if (books.length > 0) {
       books.sort((bookA: Book, bookB: Book) => bookA.released.localeCompare(bookB.released));
       books.forEach(async (book) => {
         const bookId = book.url.match(/\d+/g)?.join();
-        console.log(bookId);
         book.commentCount = await (await this.model.comment.listByBook(`${bookId}`))?.length;
       });
     }

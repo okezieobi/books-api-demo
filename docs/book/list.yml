@@ -9,12 +9,12 @@ paths:
           in: query
           description: 'Page number of books to list'
           schema:
-            type: number
+            type: integer
         - name : size
           in: query
           description: 'Page size of books to list'
           schema:
-            type: number
+            type: integer
       responses: # server responses
         200:
           description: 'An object array of books'

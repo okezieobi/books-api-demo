@@ -26,7 +26,7 @@ export class Database {
       throw {
         message: `${context} validation failed`,
         name: 'InvalidArg',
-        failures: isValid,
+        failures: isValid.errors,
       };
   }
 

@@ -9,17 +9,17 @@ paths:
           in: query
           description: 'Page number of characters to list'
           schema:
-            type: number
+            type: integer
         - name : size
           in: query
           description: 'Page size of characters to list'
           schema:
-            type: number
+            type: integer
         - name : gender
           in: query
           description: 'gender attribute to filter list of characters'
           schema:
-            type: number
+            type: string
       responses: # server responses
         200:
           description: 'An object array of characters'

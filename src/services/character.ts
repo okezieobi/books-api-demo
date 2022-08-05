@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Comment } from '../models';
+import { Comment, CommentModel } from '../models';
 
 import { api } from '../utils';
 
@@ -23,7 +23,14 @@ interface Character {
 }
 
 export class CharacterServices {
-  async list(page?: number, size?: number, gender?: string) {
+  constructor(private model: { comment: CommentModel }) {
+    this.list = this.list.bind(this);
+    this.get = this.get.bind(this);
+  }
+
+  async list({ page = 1, size = 5, gender = undefined }) {
+    await this.model.comment.db.validateInt(+page, 'Page in query of characters');
+    await this.model.comment.db.validateInt(+size, 'Page size in query of characters');
     const characters = await (
       await axios.get<Character[]>(
         `${api}characters?page=${page}&pageSize=${size}&gender=${gender}`,
@@ -33,7 +40,8 @@ export class CharacterServices {
   }
 
   async get(id: string) {
-    const character = await (await axios.get<Comment>(`${api}characters/${id}`)).data;
+    await this.model.comment.db.validateInt(+id, 'Id of character');
+    const character = await (await axios.get<Character>(`${api}characters/${id}`)).data;
     return character;
   }
 }

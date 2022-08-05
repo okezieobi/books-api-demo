@@ -44,20 +44,17 @@ commentRouter
 
 const characterRouter = Router();
 const characterScope = 'characters';
-characterRouter.get(
-  '/',
-  async ({ query: { page, size, gender } }: Request, res: Response, next: NextFunction) => {
-    const { list } = new CharacterServices();
-    res.locals[bookScope] = await list(+!page, +!size, `${gender}`).catch(next);
-    next();
-  },
-);
+characterRouter.get('/', async ({ query }: Request, res: Response, next: NextFunction) => {
+  const { list } = new CharacterServices({ comment: new CommentModel() });
+  res.locals[characterScope] = await list(query).catch(next);
+  next();
+});
 
 characterRouter.get(
   '/:id',
   async ({ params: { id } }: Request, res: Response, next: NextFunction) => {
-    const { get } = new CharacterServices();
-    res.locals[bookScope] = await get(`${id}`).catch(next);
+    const { get } = new CharacterServices({ comment: new CommentModel() });
+    res.locals[characterScope] = await get(`${id}`).catch(next);
     next();
   },
 );
