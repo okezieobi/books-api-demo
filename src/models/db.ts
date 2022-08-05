@@ -9,7 +9,7 @@ import ajvErrors from 'ajv-errors';
 config();
 const databaseUrl = new Map();
 databaseUrl.set('development', process.env.DEV_DATABASE_URL);
-databaseUrl.set('production', `${process.env.DATABASE_URL}?ssl=true`);
+databaseUrl.set('production', `${process.env.DATABASE_URL}?ssl=rejectUnauthorized`);
 const client = pgPromise()(databaseUrl.get(process.env.NODE_ENV));
 
 const ajv = new Ajv({ allErrors: true });
@@ -47,12 +47,6 @@ export class Database {
     return new QueryFile(fullPath, { minify: true });
   }
 }
-
-// if (process.env.NODE_ENV === 'development') {
-//   const { sql } = new Database();
-//   const commentTable = sql('comments/table');
-//   client.none(commentTable).catch(console.error);
-// }
 
 const { sql } = new Database();
 const commentTable = sql('comments/table');
