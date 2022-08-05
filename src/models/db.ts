@@ -11,7 +11,7 @@ const databaseUrl = new Map();
 databaseUrl.set('development', process.env.DEV_DATABASE_URL);
 databaseUrl.set('production', `${process.env.DATABASE_URL}?`);
 const client = pgPromise()({
-  ssl: { rejectUnauthorized: true },
+  ssl: { rejectUnauthorized: false },
   connectionString: databaseUrl.get(process.env.NODE_ENV),
 });
 
