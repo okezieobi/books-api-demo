@@ -4,7 +4,7 @@ import swaggerUI from 'swagger-ui-express';
 const server = new Map();
 server.set('production', {
   url: 'https://books-rest-api-demo.herokuapp.com/api/v1',
-  description: 'Deployed production ready app app on Heroku',
+  description: 'Deployed app app on Heroku',
 });
 
 server.set('development', {
